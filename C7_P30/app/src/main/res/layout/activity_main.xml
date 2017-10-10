@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.wendaqin.randomaddition.MainActivity">
+
+    <RelativeLayout
+        android:id="@+id/rloBkg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="19dp">
+
+        <TextView
+            android:id="@+id/txvNum2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:text="2"
+            android:layout_alignBaseline="@+id/txvEql"
+            android:layout_alignBottom="@+id/txvEql"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:id="@+id/txvAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:text="+"
+            android:layout_alignBaseline="@+id/txvNum2"
+            android:layout_alignBottom="@+id/txvNum2"
+            android:layout_toStartOf="@+id/txvNum2"
+            android:layout_marginEnd="44dp" />
+
+        <TextView
+            android:id="@+id/txvNum3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:text="3"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="87dp" />
+
+        <TextView
+            android:id="@+id/txvEql"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:text="="
+            android:layout_alignBaseline="@+id/txvNum3"
+            android:layout_alignBottom="@+id/txvNum3"
+            android:layout_toStartOf="@+id/txvNum3"
+            android:layout_marginEnd="17dp" />
+
+        <TextView
+            android:id="@+id/txvNum1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:text="1"
+            android:layout_alignBaseline="@+id/txvAdd"
+            android:layout_alignBottom="@+id/txvAdd"
+            android:layout_toStartOf="@+id/txvAdd"
+            android:layout_marginEnd="28dp" />
+    </RelativeLayout>
+
+</RelativeLayout>
