@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.googlecode.leptonica.android.*;
 import com.googlecode.tesseract.android.TessBaseAPI;
 
 import java.io.*;
@@ -46,7 +47,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         btnOCR = (Button) findViewById(R.id.btnOCR);
+        imVImage = (ImageView) findViewById(R.id.imgView);
         datapath = getFilesDir()+ "/tesseract/";
         checkFile(new File(datapath + "tessdata/"));
         String language = "eng";
@@ -59,7 +62,8 @@ public class MainActivity extends AppCompatActivity {
                 String state = Environment.getExternalStorageState();
                 if(state.equals(Environment.MEDIA_MOUNTED))
                 {
-                    photoPath = SAVED_IMAGE_PATH+"/"+System.currentTimeMillis()+".png";
+                    // String SAVED_IMAGE_PATH = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath();
+                    photoPath = SAVED_IMAGE_PATH+"/"+System.currentTimeMillis()+".jpg";
                     File imageDir = new File(photoPath);
                     if(!imageDir.exists())
                     {
@@ -95,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
                 File photoFile=new File(photoPath);
                 if(photoFile.exists())
                 {
-                    Bitmap bm = BitmapFactory.decodeFile(photoPath);
+                    Bitmap bm = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
                     processImage(bm);
                 }
             }
@@ -148,9 +152,36 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void processImage(Bitmap image){
-        mTess.setImage(image);
+        ReadFile rdf = new ReadFile();
+        WriteFile wtf = new WriteFile();
+        Pix pixtest = rdf.readBitmap(image);
+        Convert cvt = new Convert();
+        Binarize binarization = new Binarize();
+        Enhance ehc = new Enhance();
+        AdaptiveMap adaptiveMap = new AdaptiveMap();
+        GrayQuant gqt = new GrayQuant();
+        pixtest = cvt.convertTo8(pixtest);
+        pixtest = ehc.unsharpMasking(pixtest);
+        //pixtest = adaptiveMap.pixContrastNorm(pixtest);
+        //pixtest = gqt.pixThresholdToBinary(pixtest,30);
+        pixtest = binarization.sauvolaBinarizeTiled(pixtest);
+        Skew skw = new Skew();
+        float angle = skw.findSkew(pixtest);
+        Log.i("angle: ",Float.toString(angle));
+        Rotate rot = new Rotate();
+        pixtest = rot.rotate(pixtest,angle);
+        Bitmap bm = wtf.writeBitmap(pixtest);
+        imVImage.setImageBitmap(bm);
+
+
+        mTess.setImage(bm);
         ocrRawData = mTess.getUTF8Text();
+        Log.i("checkpoint1","pix");
         TextView OCRTextView = (TextView) findViewById(R.id.txVresult);
         OCRTextView.setText(ocrRawData);
+
+
+
+
     }
 }
